@@ -10,6 +10,7 @@ const io = require('socket.io');
 const store = require('./src/store');
 const init = require('./src/init');
 const mediasoup = require('./src/mediasoup');
+require('dotenv').config();
 
 Config = require('./config');
 if (Config.ip) Config.mediasoup.webRtcTransport.listenIps[0].ip = Config.ip;
@@ -30,14 +31,14 @@ store.io = io(server);
 init();
 mediasoup.init();
 
-const listen = () => server.listen(Config.port, () => console.log(`Server listening on port ${Config.port}`.green));
+const listen = () => server.listen(process.env.PORT, () => console.log(`Server listening on port ${process.env.PORT}`.green));
 
 server.on('error', (e) => {
   if (e.code === 'EADDRINUSE') {
     console.log('Specified port unavailable, retrying in 10 seconds...'.red);
     setTimeout(() => {
       server.close();
-      server.listen(Config.port);
+      server.listen(process.env.PORT);
     }, Config.retryAfter);
   }
 });

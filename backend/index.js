@@ -23,6 +23,9 @@ app.use('/login/*', express.static(`${__dirname}/../frontend/dist`));
 app.use('/admin', express.static(`${__dirname}/../frontend/dist`));
 app.use('/room/*', express.static(`${__dirname}/../frontend/dist`));
 app.use('/meeting/*', express.static(`${__dirname}/../frontend/dist`));
+app.get('*', (req,res)=>{
+  res.send(`<p style="font-size:100px"> Hello, Plz Check Your URL</p>`)
+});
 
 const server = http.createServer(app);
 store.app = app;
